@@ -3,31 +3,39 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigAPI {
-    private static final String CONFIG_FILE = "E:\\Документы\\Проекты IntelliJ\\TEST_API\\src\\configAPI.properties"; // Ім'я файлу конфігурації
-    private String appId;  // Змінна для зберігання API_id
-    private String appKey; // Змінна для зберігання API_key
+    // Шлях до файлу конфігурації
+    private static final String CONFIG_FILE = "E:\\Документы\\Проекты IntelliJ\\TEST_API\\src\\configAPI.properties";
 
+    // Поля для збереження ID та ключа API
+    private String appId;  // Зберігає значення API ID
+    private String appKey; // Зберігає значення API Key
+
+    // Конструктор класу
     public ConfigAPI() {
-        loadConfig(); // Завантаження конфігурації під час створення об'єкта
+        loadConfig(); // Автоматично завантажує конфігурацію при створенні об'єкта
     }
 
+    // --- Приватний метод для завантаження конфігурації ---
     private void loadConfig() {
-        Properties properties = new Properties(); // Створення об'єкта Properties для зберігання значень
-        try (FileInputStream input = new FileInputStream(CONFIG_FILE)) { // Відкриття файлу конфігурації
-            properties.load(input); // Завантаження властивостей з файлу
-            appId = properties.getProperty("API_id"); // Отримання API_id
-            appKey = properties.getProperty("API_key"); // Отримання API_key
-        } catch (IOException e) { // Обробка виключення при помилках вводу/виводу
-            e.printStackTrace(); // Виведення стеку виключення
-            throw new RuntimeException("Could not load configuration file."); // Генерація виключення
+        Properties properties = new Properties(); // Об'єкт для зберігання властивостей з файлу
+        try (FileInputStream input = new FileInputStream(CONFIG_FILE)) {
+            // Завантаження даних з файлу конфігурації
+            properties.load(input);
+            appId = properties.getProperty("API_id"); // Зчитуємо значення ключа API_id
+            appKey = properties.getProperty("API_key"); // Зчитуємо значення ключа API_key
+        } catch (IOException e) {
+            // Обробка виключень, якщо файл недоступний або має помилки
+            e.printStackTrace(); // Виведення деталей помилки
+            throw new RuntimeException("Could not load configuration file."); // Завершує програму з повідомленням
         }
     }
 
+    // --- Геттери для доступу до значень API ---
     public String getAppId() {
-        return appId; // Метод для отримання API_id
+        return appId; // Повертає API ID
     }
 
     public String getAppKey() {
-        return appKey; // Метод для отримання API_key
+        return appKey; // Повертає API Key
     }
 }
